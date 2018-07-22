@@ -12,6 +12,22 @@ function Navikeytor(el) {"use strict";
   this.start();
 }
 
+try {
+  new CustomEvent(Navikeytor.prefix);
+  Navikeytor.CE = CustomEvent;
+} catch(IE) {
+  Navikeytor.CE = function (type, options) {
+    var event = document.createEvent('CustomEvent');
+    event.initCustomEvent(
+      type,
+      !!options.bubbles,
+      !!options.cancelable,
+      options.detail
+    );
+    return event;
+  };
+}
+
 Navikeytor.prototype = {
   constructor: Navikeytor,
   on: function (type, listener) {
@@ -23,10 +39,13 @@ Navikeytor.prototype = {
     return this;
   },
   dispatch: function (type, detail) {
-    this.el.dispatchEvent(new CustomEvent(Navikeytor.prefix + type, {
-      detail: detail,
-      bubbles: true
-    }));
+    this.el.dispatchEvent(new Navikeytor.CE(
+      Navikeytor.prefix + type,
+      {
+        detail: detail,
+        bubbles: true
+      }
+    ));
     return this;
   },
   start: function () {

@@ -40,3 +40,8 @@ new Navikeytor(document)
   })
 ;
 ```
+
+### Live Demo
+
+You can try both [ltr](https://webreflection.github.io/navikeytor/test/) use case or [rtl](https://webreflection.github.io/navikeytor/test/?rtl).
+
