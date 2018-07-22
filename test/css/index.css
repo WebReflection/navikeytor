@@ -1,0 +1,89 @@
+/*! (c) 2018 Andrea Giammarchi (ISC) */
+
+html, header {
+  background-color: white;
+  color: black;
+}
+
+header {
+  border-bottom: 1px solid silver;
+}
+
+/* /theme */
+
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after{
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+  cursor: none;
+  pointer-events: none;
+}
+
+*:focus:not(input):not(select) {
+  outline: none;
+  background: #F5F5F5;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding-top: 27px;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+nav, nav * {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+nav ul {
+  display: flex;
+  flex-direction: row;
+}
+
+nav ul li {
+  flex-grow: 1;
+  text-align: center;
+}
+
+nav ul li a {
+  display: inline-block;
+  width: 100%;
+  text-decoration: none;
+  color: transparent;
+  text-shadow: 0 0 #1da1f2;
+}
+
+html, body {
+  overflow: hidden;
+}
+
+main > button {
+  text-align: left;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 0;
+  display: block;
+  width: 100%;
+  background: none;
+}
+
+html[dir="rtl"] main > button {
+  text-align: right;
+}

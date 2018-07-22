@@ -3,8 +3,7 @@
 Navikeytor.prefix = 'navikeytor:';
 function Navikeytor(el) {"use strict";
   this.el = el;
-  this.barTimer = 0;
-  this.clickTimer = 0;
+  this.barTimer = this.clickTimer = 0;
   this.document = el.ownerDocument || el;
   this.key = el.getElementsByClassName('key');
   this.dir = this.document
@@ -35,6 +34,9 @@ Navikeytor.prototype = {
   },
   stop: function () {
     this.el.removeEventListener('keydown', this);
+    clearTimeout(this.barTimer);
+    clearTimeout(this.clickTimer);
+    this.barTimer = this.clickTimer = 0;
   },
   indexOf: [].indexOf,
   handleEvent: function (event) {
