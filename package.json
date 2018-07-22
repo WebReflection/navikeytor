@@ -1,0 +1,24 @@
+{
+  "name": "navikeytor",
+  "version": "0.0.0",
+  "description": "100% keyboard based spatial navigation.",
+  "module": "esm/index.js",
+  "main": "cjs/index.js",
+  "unpkg": "index.js",
+  "scripts": {
+    "build": "npm run cjs && npm run esm",
+    "cjs": "cp index.js cjs/ && echo 'module.exports = Navikeytor;' >> cjs/index.js",
+    "esm": "cp index.js esm/ && echo 'export default Navikeytor;' >> esm/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebReflection/navikeytor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WebReflection/navikeytor/issues"
+  },
+  "homepage": "https://github.com/WebReflection/navikeytor#readme"
+}
