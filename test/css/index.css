@@ -1,6 +1,6 @@
 /*! (c) 2018 Andrea Giammarchi (ISC) */
 
-html, header {
+html {
   background-color: white;
   color: black;
 }
@@ -38,12 +38,17 @@ html, body {
 }
 
 body {
-  padding-top: 27px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 header {
-  position: fixed;
-  top: 0;
+  display: block;
   width: 100%;
 }
 
@@ -65,14 +70,16 @@ nav ul li {
 
 nav ul li a {
   display: inline-block;
+  padding: 8px;
   width: 100%;
   text-decoration: none;
   color: transparent;
   text-shadow: 0 0 #1da1f2;
 }
 
-html, body {
-  overflow: hidden;
+main {
+  flex-grow: 1;
+  overflow: auto;
 }
 
 main > button {
