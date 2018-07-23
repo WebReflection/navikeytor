@@ -15,8 +15,8 @@
     "type": "git",
     "url": "git+https://github.com/WebReflection/navikeytor.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["key", "spatial", "navigation", "keyboard"],
+  "author": "Andrea Giammarchi",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/WebReflection/navikeytor/issues"
