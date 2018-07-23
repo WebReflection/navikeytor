@@ -6,9 +6,6 @@ function Navikeytor(el) {"use strict";
   this.barTimer = this.clickTimer = 0;
   this.document = el.ownerDocument || el;
   this.key = el.getElementsByClassName('key');
-  this.dir = this.document
-                  .querySelector('[dir]')
-                  .getAttribute('dir') === 'rtl' ? -1 : 1;
   this.start();
 }
 
@@ -30,34 +27,15 @@ try {
 
 Navikeytor.prototype = {
   constructor: Navikeytor,
-  on: function (type, listener) {
-    this.el.addEventListener(Navikeytor.prefix + type, listener);
-    return this;
-  },
-  off: function (type, listener) {
-    this.el.removeEventListener(Navikeytor.prefix + type, listener);
-    return this;
-  },
   dispatch: function (type, detail) {
-    this.el.dispatchEvent(new Navikeytor.CE(
+    return this.el.dispatchEvent(new Navikeytor.CE(
       Navikeytor.prefix + type,
       {
         detail: detail,
         bubbles: true
       }
     ));
-    return this;
   },
-  start: function () {
-    this.el.addEventListener('keydown', this);
-  },
-  stop: function () {
-    this.el.removeEventListener('keydown', this);
-    clearTimeout(this.barTimer);
-    clearTimeout(this.clickTimer);
-    this.barTimer = this.clickTimer = 0;
-  },
-  indexOf: [].indexOf,
   handleEvent: function (event) {
     document.title = event.key;
     switch (event.key) {
@@ -70,18 +48,18 @@ Navikeytor.prototype = {
         this._vertical(event, -1);
         break;
       case 'ArrowRight':
-        this._horizontal(event, 1 * this.dir);
+        this._horizontal(event, 1 * this._dir());
         break;
       case 'ArrowLeft':
-        this._horizontal(event, -1 * this.dir);
+        this._horizontal(event, -1 * this._dir());
         break;
       case 'Backspace':
         this.dispatch('back', {event: event, target: this._active()});
         break;
       case 'Escape':
-        var el = this._active();
-        if (this.dispatch('esc', {event: event, target: el}))
-          el.blur();
+        var target = this._active();
+        if (this.dispatch('esc', {event: event, target: target}))
+          target.blur();
         break;
       case 'Tab':
         setTimeout(this._tab, 0, this, event);
@@ -106,56 +84,40 @@ Navikeytor.prototype = {
         break;
     }
   },
-  _index: function (index, length) {
-    if (index < 0) index = length - 1;
-    else if (index === length) index = 0;
-    return index;
+  off: function (type, listener) {
+    this.el.removeEventListener(Navikeytor.prefix + type, listener);
+    return this;
   },
-  _horizontal: function (event, pos) {
-    var el = this._el(pos);
-    el.focus();
-    this.dispatch(pos < 0 ? 'prev' : 'next', {
-      event: event,
-      target: el
-    });
+  on: function (type, listener) {
+    this.el.addEventListener(Navikeytor.prefix + type, listener);
+    return this;
   },
-  _vertical: function (event, pos) {
-    var el;
-    var current = this._active();
-    var container = this._closest(current, '.keys');
-    if (container) {
-      var length = this.key.length;
-      var i = this.indexOf.call(this.key, current);
-      do {
-        i += pos;
-        el = this.key[this._index(i, length)];
-      } while (el !== current && container.contains(el));
-      el.focus();
-      this.dispatch(pos < 0 ? 'prev' : 'next', {
-        event: event,
-        target: el
-      });
-    } else {
-      // TODO: double check this is cool
-      // otherwise use: this._horizontal(event, pos);
-      el = this._el(pos);
-      var container = this._closest(el, '.keys');
-      if (container) el = container.querySelector('.key');
-      el.focus();
-      this.dispatch(pos < 0 ? 'prev' : 'next', {
-        event: event,
-        target: el
-      });
-    }
+  start: function () {
+    this.el.addEventListener('keydown', this);
   },
+  stop: function () {
+    this.el.removeEventListener('keydown', this);
+    clearTimeout(this.barTimer);
+    clearTimeout(this.clickTimer);
+    this.barTimer = this.clickTimer = 0;
+  },
+  _indexOf: [].indexOf,
   _active: function () {
     return this.document.activeElement;
   },
-  _el: function (pos) {
-    return this.key[this._index(
-      this.indexOf.call(this.key, this._active()) + pos,
-      this.key.length
-    )];
+  _bar: function (self, event) {
+    self.barTimer = 0;
+    self.dispatch('bar', {
+      event: event,
+      target: self._active()
+    });
+  },
+  _click: function (self, event) {
+    self.clickTimer = 0;
+    self.dispatch('click', {
+      event: event,
+      target: self._active()
+    });
   },
   _closest: function (el, css) {
     return (el.closest || this._closestFix).call(el, css);
@@ -169,22 +131,8 @@ Navikeytor.prototype = {
       parentNode = parentNode.parentNode;
     return matches ? parentNode : null;
   },
-  _bar: function (self, event) {
-    self.barTimer = 0;
-    self.dispatch('bar', {
-      event: event,
-      target: self._active()
-    });
-  },
   _dblbar: function (self, event) {
     self.dispatch('dblbar', {
-      event: event,
-      target: self._active()
-    });
-  },
-  _click: function (self, event) {
-    self.clickTimer = 0;
-    self.dispatch('click', {
       event: event,
       target: self._active()
     });
@@ -195,10 +143,65 @@ Navikeytor.prototype = {
       target: self._active()
     });
   },
+  _dir: function () {
+    return this.document.documentElement
+            .getAttribute('dir') === 'rtl' ? -1 : 1;
+  },
+  _dispatch: function (pos, event, target) {
+    target.focus();
+    this.dispatch(pos < 0 ? 'prev' : 'next', {
+      event: event,
+      target: target
+    });
+  },
+  _target: function (pos) {
+    return this.key[this._index(
+      this._indexOf.call(this.key, this._active()) + pos,
+      this.key.length
+    )];
+  },
+  _horizontal: function (event, pos) {
+    var el = this._active();
+    var boundaries = this._closest(el, '.keys-bound');
+    if (boundaries) {
+      var children = boundaries.querySelectorAll('.key');
+      if (
+        (el === children[0] && pos < 0) ||
+        (el === children[children.length - 1] && pos > 0)
+      ) return;
+    }
+    this._dispatch(pos, event, this._target(pos));
+  },
+  _index: function (index, length) {
+    if (index < 0) index = length - 1;
+    else if (index === length) index = 0;
+    return index;
+  },
   _tab: function (self, event) {
     self.dispatch(
       event.shiftKey ? 'prev' : 'next',
       {event: event, target: self._active()}
     );
+  },
+  _vertical: function (event, pos) {
+    var target;
+    var current = this._active();
+    var container = this._closest(current, '.keys');
+    if (container) {
+      var length = this.key.length;
+      var i = this._indexOf.call(this.key, current);
+      do {
+        i += pos;
+        target = this.key[this._index(i, length)];
+      } while (target !== current && container.contains(target));
+      this._dispatch(pos, event, target);
+    } else {
+      // TODO: double check this is cool
+      // otherwise use: this._horizontal(event, pos);
+      target = this._target(pos);
+      var container = this._closest(target, '.keys');
+      if (container) target = container.querySelector('.key');
+      this._dispatch(pos, event, target);
+    }
   }
 };
