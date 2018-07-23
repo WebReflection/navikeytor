@@ -1,6 +1,6 @@
 {
   "name": "navikeytor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "100% keyboard based spatial navigation.",
   "module": "esm/index.js",
   "main": "cjs/index.js",
