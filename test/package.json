@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "tweety",
+  "version": "0.0.0",
+  "description": "tweety test",
+  "main": "index.js",
+  "author": "Andrea Giammarchi",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}

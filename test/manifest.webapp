@@ -1,0 +1,27 @@
+{
+  "cursor": "false",
+  "type": "web",
+  "version": "1.0.0",
+  "name": "Tweety App",
+  "short_name": "Tweety",
+  "fullscreen": "true",
+  "description": "A basic manifest example",
+  "launch_path": "/index.html",
+  "icons": {
+    "56": "img/tweety_56.png",
+    "112": "img/tweety_112.png"
+  },
+  "developer": {
+    "name": "Andrea Giammarchi",
+    "url": "https://tweety.now.sh/"
+  },
+  "locales": {
+    "en": {
+      "description": "Your new web app application",
+      "developer": {
+        "url": "https://tweety.now.sh/"
+      }
+    }
+  },
+  "default_locale": "en"
+}

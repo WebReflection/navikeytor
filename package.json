@@ -8,7 +8,8 @@
   "scripts": {
     "build": "npm run cjs && npm run esm",
     "cjs": "cp index.js cjs/ && echo 'module.exports = Navikeytor;' >> cjs/index.js",
-    "esm": "cp index.js esm/ && echo 'export default Navikeytor;' >> esm/index.js"
+    "esm": "cp index.js esm/ && echo 'export default Navikeytor;' >> esm/index.js",
+    "test:js": "cp index.js test/js/navikeytor.js"
   },
   "repository": {
     "type": "git",
