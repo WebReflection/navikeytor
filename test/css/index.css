@@ -21,8 +21,10 @@ html {
   -webkit-box-sizing: inherit;
   -moz-box-sizing: inherit;
   box-sizing: inherit;
+  /*
   cursor: none;
   pointer-events: none;
+  */
 }
 
 *:focus:not(input):not(select) {
