@@ -1,6 +1,6 @@
 {
   "name": "navikeytor",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "100% keyboard based spatial navigation.",
   "module": "esm/index.js",
   "main": "cjs/index.js",
@@ -15,7 +15,12 @@
     "type": "git",
     "url": "git+https://github.com/WebReflection/navikeytor.git"
   },
-  "keywords": ["key", "spatial", "navigation", "keyboard"],
+  "keywords": [
+    "key",
+    "spatial",
+    "navigation",
+    "keyboard"
+  ],
   "author": "Andrea Giammarchi",
   "license": "ISC",
   "bugs": {
